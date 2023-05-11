@@ -1,0 +1,67 @@
+import java.util.HashMap;
+import java.util.Map;
+
+public class GestorAlmacen {
+    
+    private Map<String, Integer> inventario;
+    
+    public GestorAlmacen() {
+        inventario = new HashMap<>();
+    }
+    
+    public void agregarProducto(String nombre, int cantidad) {
+        if (inventario.containsKey(nombre)) {
+            int cantidadActual = inventario.get(nombre);
+            inventario.put(nombre, cantidadActual + cantidad);
+        } else {
+            inventario.put(nombre, cantidad);
+        }
+    }
+    
+    public void quitarProducto(String nombre, int cantidad) {
+        if (inventario.containsKey(nombre)) {
+            int cantidadActual = inventario.get(nombre);
+            if (cantidadActual >= cantidad) {
+                inventario.put(nombre, cantidadActual - cantidad);
+            } else {
+                System.out.println("No hay suficientes unidades de " + nombre + " en el inventario");
+            }
+        } else {
+            System.out.println("No se encontró " + nombre + " en el inventario");
+        }
+    }
+    
+    public int consultarInventario(String nombre) {
+        if (inventario.containsKey(nombre)) {
+            return inventario.get(nombre);
+        } else {
+            return 0;
+        }
+    }
+    
+    public void imprimirInventario() {
+        for (String nombre : inventario.keySet()) {
+            System.out.println(nombre + ": " + inventario.get(nombre));
+        }
+    }
+    
+    public static void main(String[] args) {
+        GestorAlmacen almacen = new GestorAlmacen();
+        
+        // Agregar algunos productos
+        almacen.agregarProducto("Manzanas", 20);
+        almacen.agregarProducto("Peras", 15);
+        almacen.agregarProducto("Plátanos", 10);
+        
+        // Imprimir el inventario
+        almacen.imprimirInventario();
+        
+        // Quitar algunos productos
+        almacen.quitarProducto("Manzanas", 10);
+        almacen.quitarProducto("Peras", 20);
+        
+        // Imprimir el inventario actualizado
+        almacen.imprimirInventario();
+    }
+
+}
